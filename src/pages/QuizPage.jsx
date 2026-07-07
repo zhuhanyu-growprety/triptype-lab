@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { tptiContent, computeResult } from '../lib/scoring';
-import { getQuestionImage } from '../lib/imageMap';
+import { getQuestionImageSources, toMobileWebpSrc, getQuestionImage } from '../lib/imageMap';
 import { saveLastResult } from '../lib/storage';
 import ProgressBar from '../components/ProgressBar';
 import OptionCard from '../components/OptionCard';
@@ -16,13 +16,13 @@ export default function QuizPage() {
 
   const currentQuestion = questions[currentIndex];
   const selectedKey = answers[currentQuestion.id];
-  const questionImage = getQuestionImage(currentQuestion.id);
+  const questionImageSources = getQuestionImageSources(currentQuestion.id);
 
   useEffect(() => {
     const nextQuestion = questions[currentIndex + 1];
     if (!nextQuestion) return;
 
-    const nextImage = getQuestionImage(nextQuestion.id);
+    const nextImage = toMobileWebpSrc(getQuestionImage(nextQuestion.id));
     if (!nextImage) return;
 
     const img = new Image();
@@ -58,7 +58,9 @@ export default function QuizPage() {
       <div className="quiz-image-card">
         <img
           key={currentQuestion.id}
-          src={questionImage}
+          src={questionImageSources.desktopSrc}
+          srcSet={questionImageSources.srcSet}
+          sizes={questionImageSources.sizes}
           alt={`第 ${currentIndex + 1} 题场景插画`}
           className="quiz-image"
           loading="eager"

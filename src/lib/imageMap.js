@@ -83,3 +83,31 @@ export function getResultImage(typeCode) {
 }
 
 export const HERO_IMAGE = tptiAsset('tpti-hero-start-9x16.webp');
+
+export const RESPONSIVE_IMAGE_SIZES = '(max-width: 640px) 92vw, 420px';
+
+export function toMobileWebpSrc(desktopSrc) {
+  if (!desktopSrc || !desktopSrc.endsWith('.webp')) return desktopSrc;
+  return desktopSrc.replace(/\.webp$/, '.mobile.webp');
+}
+
+export function buildResponsiveImageSources(desktopSrc) {
+  const mobileSrc = toMobileWebpSrc(desktopSrc);
+
+  return {
+    desktopSrc,
+    mobileSrc,
+    srcSet: `${mobileSrc} 800w, ${desktopSrc} 1280w`,
+    sizes: RESPONSIVE_IMAGE_SIZES,
+  };
+}
+
+export const HERO_IMAGE_SOURCES = buildResponsiveImageSources(HERO_IMAGE);
+
+export function getQuestionImageSources(questionId) {
+  return buildResponsiveImageSources(getQuestionImage(questionId));
+}
+
+export function getResultImageSources(typeCode) {
+  return buildResponsiveImageSources(getResultImage(typeCode));
+}

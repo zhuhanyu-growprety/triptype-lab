@@ -1,14 +1,16 @@
-import { getResultImage } from '../lib/imageMap';
+import { getResultImageSources } from '../lib/imageMap';
 
 export default function ResultCard({ result, typeCode }) {
-  const resultImage = getResultImage(typeCode);
+  const resultImageSources = getResultImageSources(typeCode);
 
   return (
     <article className="result-card">
-      {resultImage && (
+      {resultImageSources.desktopSrc && (
         <div className="result-card-image-wrap">
           <img
-            src={resultImage}
+            src={resultImageSources.desktopSrc}
+            srcSet={resultImageSources.srcSet}
+            sizes={resultImageSources.sizes}
             alt={`${result.nameCn} 结果插画`}
             className="result-card-image"
             loading="eager"
