@@ -7,7 +7,13 @@ export default function ResultCard({ result, typeCode }) {
     <article className="result-card">
       {resultImage && (
         <div className="result-card-image-wrap">
-          <img src={resultImage} alt={`${result.nameCn} 结果插画`} className="result-card-image" />
+          <img
+            src={resultImage}
+            alt={`${result.nameCn} 结果插画`}
+            className="result-card-image"
+            loading="eager"
+            decoding="async"
+          />
         </div>
       )}
 

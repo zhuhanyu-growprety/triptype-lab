@@ -50,6 +50,7 @@ export default function QuizPage() {
           src={questionImage}
           alt={`第 ${currentIndex + 1} 题场景插画`}
           className="quiz-image"
+          decoding="async"
         />
       </div>
 
