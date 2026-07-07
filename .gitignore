@@ -1,0 +1,30 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Raw local source assets (copied to public/assets/tpti/ and src/data/)
+/tpti_mvp_style_calibration_images/
+/tpti_second_batch_images (1)/
+/tpti_result_personality_images/
+/tpti_content_v1_1.json
