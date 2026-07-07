@@ -16,7 +16,14 @@ export default function HomePage() {
       </header>
 
       <div className="hero-card">
-        <img src={HERO_IMAGE} alt="旅行出发场景" className="hero-image" decoding="async" />
+        <img
+          src={HERO_IMAGE}
+          alt="旅行出发场景"
+          className="hero-image"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+        />
       </div>
 
       <p className="home-intro">{home.intro}</p>

@@ -13,6 +13,7 @@ export default function ResultCard({ result, typeCode }) {
             className="result-card-image"
             loading="eager"
             decoding="async"
+            fetchPriority="high"
           />
         </div>
       )}

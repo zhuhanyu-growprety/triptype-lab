@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { tptiContent, computeResult } from '../lib/scoring';
 import { getQuestionImage } from '../lib/imageMap';
@@ -17,6 +17,17 @@ export default function QuizPage() {
   const currentQuestion = questions[currentIndex];
   const selectedKey = answers[currentQuestion.id];
   const questionImage = getQuestionImage(currentQuestion.id);
+
+  useEffect(() => {
+    const nextQuestion = questions[currentIndex + 1];
+    if (!nextQuestion) return;
+
+    const nextImage = getQuestionImage(nextQuestion.id);
+    if (!nextImage) return;
+
+    const img = new Image();
+    img.src = nextImage;
+  }, [currentIndex, questions]);
 
   function handleSelect(optionKey) {
     const nextAnswers = { ...answers, [currentQuestion.id]: optionKey };
@@ -50,7 +61,9 @@ export default function QuizPage() {
           src={questionImage}
           alt={`第 ${currentIndex + 1} 题场景插画`}
           className="quiz-image"
+          loading="eager"
           decoding="async"
+          fetchPriority="high"
         />
       </div>
 

@@ -9,37 +9,37 @@ function tptiResultAsset(filename) {
 }
 
 const QUESTION_IMAGES = {
-  q01: tptiAsset('tpti-q01-pretrip-planning-4x5.jpg'),
-  q02: tptiAsset('tpti-q02-arrival-first-day-4x5.jpg'),
-  q03: tptiAsset('tpti-q03-change-route-4x5.jpg'),
-  q04: tptiAsset('tpti-q04-long-queue-4x5.jpg'),
-  q05: tptiAsset('tpti-q05-budget-choice-4x5.jpg'),
-  q06: tptiAsset('tpti-q06-travel-night-4x5.jpg'),
-  q07: tptiAsset('tpti-q07-rainy-change-4x5.jpg'),
-  q08: tptiAsset('tpti-q08-stay-choice-4x5.jpg'),
-  q09: tptiAsset('tpti-q09-first-meal-4x5.jpg'),
-  q10: tptiAsset('tpti-q10-travel-memory-4x5.jpg'),
-  q11: tptiAsset('tpti-q11-half-day-free-time-4x5.jpg'),
-  q12: tptiAsset('tpti-q12-continue-or-rest-4x5.jpg'),
+  q01: tptiAsset('tpti-q01-pretrip-planning-4x5.webp'),
+  q02: tptiAsset('tpti-q02-arrival-first-day-4x5.webp'),
+  q03: tptiAsset('tpti-q03-change-route-4x5.webp'),
+  q04: tptiAsset('tpti-q04-long-queue-4x5.webp'),
+  q05: tptiAsset('tpti-q05-budget-choice-4x5.webp'),
+  q06: tptiAsset('tpti-q06-travel-night-4x5.webp'),
+  q07: tptiAsset('tpti-q07-rainy-change-4x5.webp'),
+  q08: tptiAsset('tpti-q08-stay-choice-4x5.webp'),
+  q09: tptiAsset('tpti-q09-first-meal-4x5.webp'),
+  q10: tptiAsset('tpti-q10-travel-memory-4x5.webp'),
+  q11: tptiAsset('tpti-q11-half-day-free-time-4x5.webp'),
+  q12: tptiAsset('tpti-q12-continue-or-rest-4x5.webp'),
 };
 
 const RESULT_IMAGES = {
-  PFLG: tptiResultAsset('tpti-result-PFLG-4x5.jpg'),
-  PFLO: tptiResultAsset('tpti-result-PFLO-4x5.jpg'),
-  PFCG: tptiResultAsset('tpti-result-PFCG-4x5.jpg'),
-  PFCO: tptiResultAsset('tpti-result-PFCO-4x5.jpg'),
-  PSLG: tptiResultAsset('tpti-result-PSLG-4x5.jpg'),
-  PSLO: tptiResultAsset('tpti-result-PSLO-4x5.jpg'),
-  PSCG: tptiResultAsset('tpti-result-PSCG-4x5.jpg'),
-  PSCO: tptiResultAsset('tpti-result-PSCO-4x5.jpg'),
-  EFLG: tptiResultAsset('tpti-result-EFLG-4x5.jpg'),
-  EFLO: tptiResultAsset('tpti-result-EFLO-4x5.jpg'),
-  EFCG: tptiResultAsset('tpti-result-EFCG-4x5.jpg'),
-  EFCO: tptiResultAsset('tpti-result-EFCO-4x5.jpg'),
-  ESLG: tptiResultAsset('tpti-result-ESLG-4x5.jpg'),
-  ESLO: tptiResultAsset('tpti-result-ESLO-4x5.jpg'),
-  ESCG: tptiResultAsset('tpti-result-ESCG-4x5.jpg'),
-  ESCO: tptiResultAsset('tpti-result-ESCO-4x5.jpg'),
+  PFLG: tptiResultAsset('tpti-result-PFLG-4x5.webp'),
+  PFLO: tptiResultAsset('tpti-result-PFLO-4x5.webp'),
+  PFCG: tptiResultAsset('tpti-result-PFCG-4x5.webp'),
+  PFCO: tptiResultAsset('tpti-result-PFCO-4x5.webp'),
+  PSLG: tptiResultAsset('tpti-result-PSLG-4x5.webp'),
+  PSLO: tptiResultAsset('tpti-result-PSLO-4x5.webp'),
+  PSCG: tptiResultAsset('tpti-result-PSCG-4x5.webp'),
+  PSCO: tptiResultAsset('tpti-result-PSCO-4x5.webp'),
+  EFLG: tptiResultAsset('tpti-result-EFLG-4x5.webp'),
+  EFLO: tptiResultAsset('tpti-result-EFLO-4x5.webp'),
+  EFCG: tptiResultAsset('tpti-result-EFCG-4x5.webp'),
+  EFCO: tptiResultAsset('tpti-result-EFCO-4x5.webp'),
+  ESLG: tptiResultAsset('tpti-result-ESLG-4x5.webp'),
+  ESLO: tptiResultAsset('tpti-result-ESLO-4x5.webp'),
+  ESCG: tptiResultAsset('tpti-result-ESCG-4x5.webp'),
+  ESCO: tptiResultAsset('tpti-result-ESCO-4x5.webp'),
 };
 
 const RESULT_FAMILY_IMAGES = {
@@ -82,4 +82,4 @@ export function getResultImage(typeCode) {
   return RESULT_IMAGES[typeCode] ?? getResultFamilyImage(typeCode);
 }
 
-export const HERO_IMAGE = tptiAsset('tpti-hero-start-9x16.jpg');
+export const HERO_IMAGE = tptiAsset('tpti-hero-start-9x16.webp');
