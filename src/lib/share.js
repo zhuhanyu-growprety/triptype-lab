@@ -5,8 +5,9 @@ export function cleanTypeCode(typeCode) {
 
 export function buildShareUrl(typeCode) {
   const clean = cleanTypeCode(typeCode);
-  const shareUrl = `${window.location.origin}${window.location.pathname}#/result?type=${encodeURIComponent(clean)}&shared=1`;
-  return shareUrl;
+  const base = import.meta.env.BASE_URL || '/';
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  return `${window.location.origin}${normalizedBase}#/result?type=${encodeURIComponent(clean)}&shared=1`;
 }
 
 export function buildShareMessage(result) {
@@ -26,14 +27,49 @@ export function buildSharePayload(result, typeCode) {
   };
 }
 
+function copyWithExecCommand(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  textarea.style.top = '0';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+
+  let copied = false;
+  try {
+    copied = document.execCommand('copy');
+  } catch {
+    copied = false;
+  }
+
+  document.body.removeChild(textarea);
+  return copied;
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // fall through to execCommand
+    }
+  }
+
+  return copyWithExecCommand(text);
+}
+
 export async function shareResult(result, typeCode) {
   const payload = buildSharePayload(result, typeCode);
 
-  if (navigator.share) {
+  if (typeof navigator.share === 'function') {
     try {
       await navigator.share({
         title: payload.title,
-        text: payload.fullText,
+        text: payload.shareMessage,
         url: payload.url,
       });
       return { ok: true, method: 'share' };
@@ -44,10 +80,10 @@ export async function shareResult(result, typeCode) {
     }
   }
 
-  try {
-    await navigator.clipboard.writeText(payload.fullText);
+  const copied = await copyText(payload.fullText);
+  if (copied) {
     return { ok: true, method: 'clipboard' };
-  } catch {
-    return { ok: false, method: 'clipboard' };
   }
+
+  return { ok: false, method: 'clipboard' };
 }

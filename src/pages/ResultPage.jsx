@@ -37,13 +37,14 @@ export default function ResultPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [shareStatus, setShareStatus] = useState('');
+  const [isSharing, setIsSharing] = useState(false);
 
   const displayed = resolveDisplayedResult(searchParams);
   const { result: pageCopy } = tptiContent.pageCopy;
 
-  function showToast(setter, message) {
-    setter(message);
-    setTimeout(() => setter(''), 2000);
+  function showToast(message) {
+    setShareStatus(message);
+    setTimeout(() => setShareStatus(''), 2000);
   }
 
   if (!displayed?.result) {
@@ -66,16 +67,25 @@ export default function ResultPage() {
   const retestLabel = isShared ? '我也测测' : pageCopy.retestButton;
 
   async function handleShare() {
-    const outcome = await shareResult(result, typeCode);
+    if (isSharing) return;
 
-    if (outcome.cancelled) return;
+    setIsSharing(true);
+    try {
+      const outcome = await shareResult(result, typeCode);
 
-    if (outcome.ok) {
-      showToast(shareStatus, outcome.method === 'share' ? '已唤起分享' : '分享文案和链接已复制');
-      return;
+      if (outcome.cancelled) return;
+
+      if (outcome.ok) {
+        showToast('已复制分享内容');
+        return;
+      }
+
+      showToast('分享失败，请稍后重试');
+    } catch {
+      showToast('分享失败，请稍后重试');
+    } finally {
+      setIsSharing(false);
     }
-
-    showToast(shareStatus, '分享失败');
   }
 
   function handleRetest() {
@@ -91,7 +101,12 @@ export default function ResultPage() {
       <ResultCard result={result} typeCode={typeCode} />
 
       <div className="result-actions">
-        <button type="button" className="btn btn-primary" onClick={handleShare}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleShare}
+          disabled={isSharing}
+        >
           {shareStatus || '分享结果'}
         </button>
         <button type="button" className="btn btn-secondary" onClick={handleRetest}>
