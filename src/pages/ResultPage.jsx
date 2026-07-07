@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { tptiContent, findResult, isValidTypeCode } from '../lib/scoring';
 import { getLastResult } from '../lib/storage';
-import { cleanTypeCode, shareResult } from '../lib/share';
+import { cleanTypeCode } from '../lib/share';
 import ResultCard from '../components/ResultCard';
+import SharePanel from '../components/SharePanel';
 
 function resolveDisplayedResult(searchParams) {
   const rawType = searchParams.get('type');
@@ -36,16 +37,10 @@ function resolveDisplayedResult(searchParams) {
 export default function ResultPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [shareStatus, setShareStatus] = useState('');
-  const [isSharing, setIsSharing] = useState(false);
+  const [sharePanelOpen, setSharePanelOpen] = useState(false);
 
   const displayed = resolveDisplayedResult(searchParams);
   const { result: pageCopy } = tptiContent.pageCopy;
-
-  function showToast(message) {
-    setShareStatus(message);
-    setTimeout(() => setShareStatus(''), 2000);
-  }
 
   if (!displayed?.result) {
     return (
@@ -66,26 +61,8 @@ export default function ResultPage() {
   const { typeCode, result, isShared } = displayed;
   const retestLabel = isShared ? '我也测测' : pageCopy.retestButton;
 
-  async function handleShare() {
-    if (isSharing) return;
-
-    setIsSharing(true);
-    try {
-      const outcome = await shareResult(result, typeCode);
-
-      if (outcome.cancelled) return;
-
-      if (outcome.ok) {
-        showToast('已复制分享内容');
-        return;
-      }
-
-      showToast('分享失败，请稍后重试');
-    } catch {
-      showToast('分享失败，请稍后重试');
-    } finally {
-      setIsSharing(false);
-    }
+  function handleShare() {
+    setSharePanelOpen(true);
   }
 
   function handleRetest() {
@@ -101,13 +78,8 @@ export default function ResultPage() {
       <ResultCard result={result} typeCode={typeCode} />
 
       <div className="result-actions">
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={handleShare}
-          disabled={isSharing}
-        >
-          {shareStatus || '分享结果'}
+        <button type="button" className="btn btn-primary" onClick={handleShare}>
+          分享结果
         </button>
         <button type="button" className="btn btn-secondary" onClick={handleRetest}>
           {retestLabel}
@@ -116,6 +88,14 @@ export default function ResultPage() {
           {pageCopy.homeButton}
         </Link>
       </div>
+
+      {sharePanelOpen && (
+        <SharePanel
+          result={result}
+          typeCode={typeCode}
+          onClose={() => setSharePanelOpen(false)}
+        />
+      )}
     </div>
   );
 }

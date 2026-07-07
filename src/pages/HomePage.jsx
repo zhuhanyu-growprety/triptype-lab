@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { tptiContent } from '../lib/scoring';
-import { HERO_IMAGE_SOURCES } from '../lib/imageMap';
+import { HERO_IMAGE } from '../lib/imageMap';
 import { hasLastResult } from '../lib/storage';
 import { USER_DISCLAIMER } from '../lib/disclaimer';
+import ResponsiveTptiImage from '../components/ResponsiveTptiImage';
 
 export default function HomePage() {
   const { home } = tptiContent.pageCopy;
@@ -16,14 +17,11 @@ export default function HomePage() {
       </header>
 
       <div className="hero-card">
-        <img
-          src={HERO_IMAGE_SOURCES.desktopSrc}
-          srcSet={HERO_IMAGE_SOURCES.srcSet}
-          sizes={HERO_IMAGE_SOURCES.sizes}
+        <ResponsiveTptiImage
+          src={HERO_IMAGE}
           alt="旅行出发场景"
           className="hero-image"
           loading="eager"
-          decoding="async"
           fetchPriority="high"
         />
       </div>

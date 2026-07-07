@@ -1,20 +1,18 @@
-import { getResultImageSources } from '../lib/imageMap';
+import { getResultImage } from '../lib/imageMap';
+import ResponsiveTptiImage from './ResponsiveTptiImage';
 
 export default function ResultCard({ result, typeCode }) {
-  const resultImageSources = getResultImageSources(typeCode);
+  const resultImage = getResultImage(typeCode);
 
   return (
     <article className="result-card">
-      {resultImageSources.desktopSrc && (
+      {resultImage && (
         <div className="result-card-image-wrap">
-          <img
-            src={resultImageSources.desktopSrc}
-            srcSet={resultImageSources.srcSet}
-            sizes={resultImageSources.sizes}
+          <ResponsiveTptiImage
+            src={resultImage}
             alt={`${result.nameCn} 结果插画`}
             className="result-card-image"
             loading="eager"
-            decoding="async"
             fetchPriority="high"
           />
         </div>

@@ -62,28 +62,34 @@ async function copyText(text) {
   return copyWithExecCommand(text);
 }
 
-export async function shareResult(result, typeCode) {
+export function canSystemShare() {
+  return typeof navigator.share === 'function';
+}
+
+export async function copyShareContent(result, typeCode) {
+  const payload = buildSharePayload(result, typeCode);
+  const copied = await copyText(payload.fullText);
+  return { ok: copied };
+}
+
+export async function systemShare(result, typeCode) {
+  if (!canSystemShare()) {
+    return { ok: false };
+  }
+
   const payload = buildSharePayload(result, typeCode);
 
-  if (typeof navigator.share === 'function') {
-    try {
-      await navigator.share({
-        title: payload.title,
-        text: payload.shareMessage,
-        url: payload.url,
-      });
-      return { ok: true, method: 'share' };
-    } catch (error) {
-      if (error?.name === 'AbortError') {
-        return { ok: false, method: 'share', cancelled: true };
-      }
+  try {
+    await navigator.share({
+      title: payload.title,
+      text: payload.shareMessage,
+      url: payload.url,
+    });
+    return { ok: true };
+  } catch (error) {
+    if (error?.name === 'AbortError') {
+      return { ok: false, cancelled: true };
     }
+    return { ok: false };
   }
-
-  const copied = await copyText(payload.fullText);
-  if (copied) {
-    return { ok: true, method: 'clipboard' };
-  }
-
-  return { ok: false, method: 'clipboard' };
 }
